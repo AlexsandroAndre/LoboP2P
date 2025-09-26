@@ -1,20 +1,20 @@
 # Base Node.js
 FROM node:20-alpine
 
-# Definir diretório de trabalho
+# Diretório de trabalho
 WORKDIR /app
 
 # Copiar package.json e package-lock.json
 COPY package*.json ./
 
-# Instalar dependências
+# Instalar dependências (produção)
 RUN npm install --production
 
-# Copiar todo o código da aplicação
+# Copiar todo o código
 COPY . .
 
-# Expor a porta que Railway vai usar
+# Expor a porta
 EXPOSE 3000
 
-# Rodar Prisma generate, aplicar migrations e iniciar a aplicação no runtime
-CMD npx prisma generate && npx prisma migrate deploy && node src/index.js
+# Comando para iniciar a aplicação
+CMD ["node", "src/start.js"]

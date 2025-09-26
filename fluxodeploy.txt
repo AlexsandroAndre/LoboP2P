@@ -1,0 +1,11 @@
+5. Deploy no Railway
+
+Suba o projeto para um repositório (GitHub/GitLab).
+
+No Railway, crie um novo serviço → escolha Deploy from GitHub Repo.
+
+Railway detecta o Dockerfile e gera a imagem automaticamente.
+
+Configure variáveis de ambiente no Railway (DATABASE_URL, NODE_ENV=production, etc).
+
+Railway sobe seu container e conecta no PostgreSQL. 🎉

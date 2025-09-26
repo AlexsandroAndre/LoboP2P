@@ -7,7 +7,10 @@ RUN npm install --production
 
 COPY . .
 
+# Gerar Prisma Client
+RUN npx prisma generate
+
 EXPOSE 3000
 
-# Rodar migrations e iniciar a aplicação no runtime
+# Rodar migrations e iniciar a aplicação
 CMD npx prisma migrate deploy && node src/index.js

@@ -1,23 +1,21 @@
 # Base Node.js
 FROM node:20-alpine
 
-# Diretório de trabalho
 WORKDIR /app
 
 # Copiar package.json e package-lock.json
 COPY package*.json ./
 
-# Instalar dependências (produção)
+# Instalar dependências
 RUN npm install --production
+
+# Copiar o código e o schema
+COPY . .
 
 # Gerar Prisma Client
 RUN npx prisma generate
 
-# Copiar todo o código
-COPY . .
-
-# Expor a porta
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
-CMD ["node", "src/start.js"]
+# Rodar migrations e iniciar aplicação
+CMD npx prisma migrate deploy && node src/index.js

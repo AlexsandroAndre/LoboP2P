@@ -1,21 +1,23 @@
-# Etapa base
-FROM node:18
+# Base Node.js
+FROM node:20-alpine
 
 # Diretório de trabalho
 WORKDIR /app
 
-# Copiar package.json e instalar deps
+# Copiar package.json e package-lock.json
 COPY package*.json ./
+
+# Instalar dependências
 RUN npm install --production
 
-# Copiar código
+# Copiar todo o projeto
 COPY . .
 
-# Gerar cliente do Prisma
-RUN npx prisma generate
-
-# Expõe porta padrão do Railway
+# Expor a porta do app
 EXPOSE 3000
 
-# Comando de inicialização
-CMD ["npm", "run", "build"]
+# Rodar build (Prisma generate + migrate)
+RUN npx prisma generate && npx prisma migrate deploy
+
+# Comando para iniciar a aplicação
+CMD ["node", "src/index.js"]

@@ -1,4 +1,3 @@
-# Base Node.js
 FROM node:20-alpine
 
 WORKDIR /app
@@ -8,10 +7,7 @@ RUN npm install --production
 
 COPY . .
 
-# Gerar Prisma Client (não precisa do DATABASE_URL aqui)
-RUN npx prisma generate
-
 EXPOSE 3000
 
-# Rodar migrations e iniciar a aplicação
+# Rodar migrations e iniciar a aplicação no runtime
 CMD npx prisma migrate deploy && node src/index.js

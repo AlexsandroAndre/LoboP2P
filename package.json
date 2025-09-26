@@ -1,0 +1,36 @@
+{
+  "name": "lobop2p",
+  "version": "1.0.0",
+  "description": "Esse é um projeto que demonstra segurança e de gerenciamento de dados financeiros.",
+  "homepage": "https://github.com/AlexsandroAndre/LoboP2P#readme",
+  "bugs": {
+    "url": "https://github.com/AlexsandroAndre/LoboP2P/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexsandroAndre/LoboP2P.git"
+  },
+  "license": "ISC",
+  "author": "alexsandro.andre",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "migrate": "prisma migrate deploy",
+    "build": "npm run migrate && node src/index.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.16.2",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.3",
+    "prisma": "^6.16.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

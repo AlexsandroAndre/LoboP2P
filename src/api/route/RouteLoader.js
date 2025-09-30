@@ -48,8 +48,8 @@ class RouteLoader {
 
     const port = process.env.PORT || 3000;
     const baseUrl =
-  process.env.RAILWAY_PRIVATE_DOMAIN
-    ? `https://${process.env.RAILWAY_PRIVATE_DOMAIN}`
+  process.env.RAILWAY_PUBLIC_DOMAIN
+    ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
     : `http://localhost:${port}`;
 
     // Integrar Swagger no Express

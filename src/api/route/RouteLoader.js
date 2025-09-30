@@ -46,6 +46,8 @@ class RouteLoader {
       console.log(`Rotas carregadas: ${basePath}`);
     });
 
+    const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+
     // Integrar Swagger no Express
     const swaggerSpec = {
       openapi: "3.0.0",
@@ -54,13 +56,13 @@ class RouteLoader {
         version: "1.0.0",
         description: "Documentação gerada automaticamente pelo RouteLoader",
       },
-      servers: [{ url: "http://localhost:3000" }],
+      servers: [{ url: baseUrl }],
       tags,
       paths,
     };
 
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    console.log("Swagger rodando em /api-docs");
+    console.log(`Swagger rodando em ${baseUrl}/api-docs`);
   }
 
   /**

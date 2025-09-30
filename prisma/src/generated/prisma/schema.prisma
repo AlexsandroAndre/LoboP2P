@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id       String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  wallets       Wallet[]
+}
+
+model Wallet {
+  wallet_id             String   @id @default(uuid())
+  user_id               String
+  address               String   @unique
+  encrypted_private_key String
+  blockchain_network    String
+  balance               Decimal  @default(0.0)
+  created_at            DateTime @default(now())
+
+  user         User          @relation(fields: [user_id], references: [user_id])
+  transactions Transaction[]
+}
+
+enum TransactionStatus {
+  pending
+  confirmed
+  failed
+}
+
+model Transaction {
+  transaction_id     String            @id @default(uuid())
+  wallet_id          String
+  blockchain_tx_hash String            @unique
+  from_address       String
+  to_address         String
+  amount             Decimal
+  token_type         String
+  status             TransactionStatus @default(pending)
+  timestamp          DateTime          @default(now())
+
+  wallet Wallet @relation(fields: [wallet_id], references: [wallet_id])
+}

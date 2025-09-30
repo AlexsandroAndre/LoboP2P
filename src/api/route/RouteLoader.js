@@ -46,7 +46,11 @@ class RouteLoader {
       console.log(`Rotas carregadas: ${basePath}`);
     });
 
-    const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+    const port = process.env.PORT || 3000;
+    const baseUrl =
+  process.env.RAILWAY_PRIVATE_DOMAIN
+    ? `https://${process.env.RAILWAY_PRIVATE_DOMAIN}`
+    : `http://localhost:${port}`;
 
     // Integrar Swagger no Express
     const swaggerSpec = {

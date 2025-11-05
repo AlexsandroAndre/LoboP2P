@@ -1,6 +1,19 @@
-version: "3.9"
-
 services:
+  app:
+    build: .
+    container_name: lobo-app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://lobo:secret@db:5432/lobodb
+      NODE_ENV: production
+    networks:
+      - lobo-network
+
   db:
     image: postgres:15-alpine
     container_name: lobo-db
@@ -10,20 +23,20 @@ services:
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: lobodb
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-
-  app:
-    build: .
-    container_name: lobo-app
-    restart: always
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: ${DATABASE_URL}  
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lobo -d lobodb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lobo-network  
 
 volumes:
   db_data:
+
+networks:
+  lobo-network:
+    driver: bridge

@@ -4,10 +4,11 @@ const UserController = require("./api/controller/v1/UserController.js");
 //const DB = require("./infra/db/test-prisma.js");
 
 const app = express();
-const port = process.env.PORT || 3000;
+
+// Middleware para parsing JSON
+app.use(express.json());
 
 RouteLoader.load(app, [UserController]);
 
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
-});
+// Exportar o app para ser usado pelo start.js
+module.exports = app;
